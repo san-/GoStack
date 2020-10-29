@@ -1,4 +1,7 @@
-import { soma } from "./soma";
+import React from 'react';
+import { render } from 'react-dom';
+import App from './App';
 
-let s = soma(5,1);
-document.getElementById('app').append(`UM TESTE QUE DEU CERTO ${s}`);
+render(<App/>,
+    document.getElementById('app')
+);
