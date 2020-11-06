@@ -3,19 +3,12 @@ import routes from './routes';
 
 const app = express();
 
-interface Teste{
-    a: string
-}
+app.get('/', (request, response) => {
+  response.json({ message: 'Hello World com Prettier' });
+});
 
-    app.get('/', (request, response)=>{
-    console.log('teste')
-          return response.json({message: "Hello World!"});
+const port = 3333;
 
-      });
-
-app.listen(3333, ()=>{
-    console.log('Server started on port 3333.')
-    console.info('ok')
-})
-
-
+app.listen(port, () => {
+  console.log(`Server started at port ${port}`);
+});
