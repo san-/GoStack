@@ -30,7 +30,13 @@
           "ts": "never"
         }
       ],
-      "prettier/prettier": "error"
+      "prettier/prettier": "error",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/interface-name-prefix": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "camelcase": "off",
+      "class-methods-use-this": "off"
     },
     "settings": {
       "import/resolver": {
