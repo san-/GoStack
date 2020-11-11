@@ -1,6 +1,7 @@
 import { hash } from 'bcryptjs';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
+import AppError from '../errors/AppError';
 
 interface Request {
   name: string;
@@ -14,11 +15,11 @@ export default class CreateUserService {
 
     const checkUserExists = await usersRepository.findOne({ where: { email } });
     if (checkUserExists) {
-      throw new Error('Email address already used.');
+      throw new AppError('Email address already used.');
     }
 
     if (password?.length < 4) {
-      throw new Error('Password must be at last four characters');
+      throw new AppError('Password must be at last four characters');
     }
 
     const hashedPassword = await hash(password, 8);
