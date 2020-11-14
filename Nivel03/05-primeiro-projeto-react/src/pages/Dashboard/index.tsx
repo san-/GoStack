@@ -1,7 +1,14 @@
 import React from 'react';
 
-const Repository: React.FC = () => {
-  return <h1>Repository</h1>;
+const Dashboard: React.FC = () => {
+  return (
+    <>
+      <div>
+        <h1>Dashboard</h1>
+        <h2>Aqui</h2>
+      </div>
+    </>
+  );
 };
 
-export default Repository;
+export default Dashboard;
