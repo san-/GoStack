@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 
 import { FiChevronRight } from 'react-icons/fi';
 import logoImg from '../../assets/logo.svg';
@@ -17,9 +17,28 @@ interface Repository {
 }
 
 const Dashboard: React.FC = () => {
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useState<Repository[]>(() => {
+    const storageRepositories = localStorage.getItem(
+      '@GitHubExplorer:repositories',
+    );
+    if (storageRepositories) {
+      return JSON.parse(storageRepositories);
+    }
+    return [];
+  });
   const [newRepo, setNewRepo] = useState('san-/Firebird-JB-Soft');
   const [inputError, setInputError] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem(
+      '@GitHubExplorer:repositories',
+      JSON.stringify(repositories),
+    );
+  }, [repositories]);
+
+  useEffect(() => {
+    setInputError('');
+  }, [newRepo]);
 
   async function handleAddRepository(
     event: FormEvent<HTMLFormElement>,
@@ -30,6 +49,15 @@ const Dashboard: React.FC = () => {
       setInputError('Digite autor/nome do repositório');
       return;
     }
+    const existentRepo = repositories.filter(
+      repository =>
+        repository.full_name.toLowerCase() === newRepo.toLowerCase(),
+    );
+    if (existentRepo.length > 0) {
+      setInputError('Repositório já adicionado.');
+      return;
+    }
+
     try {
       const response = await api.get<Repository>(`repos/${newRepo}`);
       const repository = response.data;
