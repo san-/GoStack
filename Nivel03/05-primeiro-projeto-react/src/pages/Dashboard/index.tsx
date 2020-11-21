@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
     }
     return [];
   });
-  const [newRepo, setNewRepo] = useState('san-/Firebird-JB-Soft');
+  const [newRepo, setNewRepo] = useState('');
   const [inputError, setInputError] = useState('');
 
   useEffect(() => {
