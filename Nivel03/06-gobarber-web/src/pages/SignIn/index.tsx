@@ -32,10 +32,12 @@ const SignIn: React.FC = () => {
           password: Yup.string().required('Senha obrigatória'),
         });
         await schema.validate(data, { abortEarly: false });
+        signIn({ email: data.email, password: data.password });
       } catch (err) {
-        formRef.current?.setErrors(getValidationErrors(err));
+        if (err instanceof Yup.ValidationError) {
+          formRef.current?.setErrors(getValidationErrors(err));
+        }
       }
-      signIn({ email: data.email, password: data.password });
     },
     [signIn],
   );
