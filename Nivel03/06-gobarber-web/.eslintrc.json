@@ -45,6 +45,7 @@
           "allowExpressions": true
         }
       ],
+      "no-unused-expressions": "off",
       "no-use-before-define": "off",
       "import/extensions": [
           "error",
