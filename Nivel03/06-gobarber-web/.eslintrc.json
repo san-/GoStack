@@ -32,8 +32,10 @@
       "import/no-cycle": 0,
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
-      "react/jsx-one-expression-per-line": "off",
+      "react/jsx-one-expression-per-line": 0,
       "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+      "react/jsx-props-no-spreading": "off",
+      "react/prop-types": "off",
       "import/prefer-default-export": "off",
       "camelcase": "off",
       "@typescript-eslint/ban-types": "off",
@@ -54,7 +56,8 @@
        ],
        "prettier/prettier": ["error", {
          "endOfLine": "auto"
-       }]
+       }
+      ]
     },
     "settings": {
       "import/resolver": {
