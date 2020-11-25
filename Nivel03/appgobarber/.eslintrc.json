@@ -23,10 +23,10 @@
         "sourceType": "module"
     },
     "plugins": [
+        "prettier",
         "react",
         "react-hooks",
-        "@typescript-eslint",
-        "prettier"
+        "@typescript-eslint"
     ],
     "rules": {
       "react-hooks/rules-of-hooks": "error",
@@ -43,11 +43,11 @@
           "tsx": "never"
         }
       ],
-      "settings": {
-        "import/resolver": {
-          "typescript": {}
-        }
-      },
       "prettier/prettier": "error"
+    },
+    "settings": {
+      "import/resolver": {
+        "typescript": {}
+      }
     }
 }
