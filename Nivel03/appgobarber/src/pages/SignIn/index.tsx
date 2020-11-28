@@ -27,42 +27,48 @@ import logoImg from '../../assets/logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { useAuth } from '../../hooks/auth';
 
 interface SignInFormData {
   email: string;
-  pasword: string;
+  password: string;
 }
 
 const SignIn: React.FC = () => {
   const navigation = useNavigation();
+  const { signIn, user } = useAuth();
+
+  console.log(user);
 
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    formRef.current?.setErrors({});
-    try {
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('E-mail inválido'),
-        password: Yup.string().required('Senha obrigatória'),
-      });
-      await schema.validate(data, { abortEarly: false });
-      // await signIn({ email: data.email, password: data.password });
-      // push...
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        formRef.current?.setErrors(getValidationErrors(err));
-        return;
-      }
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      formRef.current?.setErrors({});
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('E-mail inválido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
+        await schema.validate(data, { abortEarly: false });
+        await signIn({ email: data.email, password: data.password });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          formRef.current?.setErrors(getValidationErrors(err));
+          return;
+        }
 
-      Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro ao fezer login. Verifique as credenciais.',
-      );
-    }
-  }, []);
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fezer login. Verifique as credenciais.',
+        );
+      }
+    },
+    [signIn],
+  );
 
   // const handleSignIn = useCallback((data: Record<string, unknown>) => {
   //   console.log({ data });
