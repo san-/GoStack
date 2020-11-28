@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -12,11 +13,19 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+import * as Yup from 'yup';
 import { BackToSignIn, BackToSignInText, Container, Title } from './styles';
 
 import logoImg from '../../assets/logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import getValidationErrors from '../../utils/getValidationErrors';
+
+interface SignUpFormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const SignUp: React.FC = () => {
   const navigation = useNavigation();
@@ -25,9 +34,37 @@ const SignUp: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const nameInputRef = useRef<TextInput>(null);
 
-  const handleSignUp = useCallback((data: Record<string, unknown>) => {
-    console.log(data);
+  const handleSignUp = useCallback(async (data: SignUpFormData) => {
+    formRef.current?.setErrors({});
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório'),
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('E-mail inválido'),
+        password: Yup.string().min(6, 'No mínimo 6 dígitos '),
+      });
+      await schema.validate(data, { abortEarly: false });
+
+      // await api.post('/users', data);
+      // history.push('/');
+
+      Alert.alert(
+        'Cadastro realizado',
+        'Você já pode fazer seu logon no GoBarber.',
+      );
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        formRef.current?.setErrors(getValidationErrors(err));
+        return;
+      }
+      Alert.alert(
+        'Erro no cadastro',
+        'Ocorreu um erro ao fezer o cadastro. Tente novamente.',
+      );
+    }
   }, []);
+
   return (
     <>
       <KeyboardAvoidingView
