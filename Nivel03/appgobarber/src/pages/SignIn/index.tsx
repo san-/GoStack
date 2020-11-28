@@ -1,5 +1,11 @@
 import React, { useCallback, useRef } from 'react';
-import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { ScrollView } from 'react-native-gesture-handler';
@@ -23,6 +29,7 @@ const SignIn: React.FC = () => {
   const navigation = useNavigation();
 
   const formRef = useRef<FormHandles>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const handleSignIn = useCallback((data: Record<string, unknown>) => {
     console.log({ data });
@@ -44,8 +51,25 @@ const SignIn: React.FC = () => {
               <Title>Faça seu logon</Title>
             </View>
             <Form ref={formRef} onSubmit={handleSignIn}>
-              <Input name="email" icon="mail" placeholder="E-mail" />
-              <Input name="password" icon="lock" placeholder="Senha" />
+              <Input
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                name="email"
+                icon="mail"
+                placeholder="E-mail"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordInputRef.current?.focus()}
+              />
+              <Input
+                ref={passwordInputRef}
+                secureTextEntry
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                returnKeyType="send"
+                onSubmitEditing={() => formRef.current?.submitForm()}
+              />
               <Button onPress={() => formRef.current?.submitForm()}>
                 Entrar
               </Button>

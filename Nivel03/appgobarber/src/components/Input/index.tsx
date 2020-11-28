@@ -1,5 +1,12 @@
 import { useField } from '@unform/core';
-import React, { useEffect, useRef } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { TextInputProps } from 'react-native';
 
 import { Container, TextInput, Icon } from './styles';
@@ -13,33 +20,65 @@ interface InputValueReference {
   value: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, icon, ...rest }: InputProps) => {
+interface InputRef {
+  focus(): void;
+}
+
+const Input: React.RefForwardingComponent<InputRef, InputProps> = (
+  { name, icon, ...rest }: InputProps,
+  ref,
+) => {
   const inputElementRef = useRef<any>(null);
   const { registerField, defaultValue = '', fieldName, error } = useField(name);
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+    setIsFilled(!!inputValueRef.current.value);
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    focus() {
+      inputElementRef.current.focus();
+    },
+  }));
+
   useEffect(() => {
     registerField({
       name: fieldName,
       ref: inputValueRef.current,
       path: 'value',
-      setValue(ref: any, value: string) {
+      setValue(value: string) {
         inputValueRef.current.value = value;
         inputElementRef.current.setNativePros({ text: value });
       },
-      clearValue(ref: any) {
+      clearValue() {
         inputValueRef.current.value = '';
         inputElementRef.current.clear();
       },
     });
   }, [fieldName, registerField]);
   return (
-    <Container>
-      <Icon name={icon} size={20} color="#666360" />
+    <Container isFocused={isFocused}>
+      <Icon
+        name={icon}
+        size={20}
+        color={isFocused || isFilled ? '#ff9000' : '#666360'}
+      />
       <TextInput
         ref={inputElementRef}
         defaultValue={defaultValue}
         keyboardAppearance="dark"
         placeholderTextColor="#666360"
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
         onChangeText={value => {
           inputValueRef.current.value = value;
         }}
@@ -49,4 +88,4 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }: InputProps) => {
   );
 };
 
-export default Input;
+export default forwardRef(Input);
