@@ -3,11 +3,11 @@ import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
+import uploadConfig from '@config/upload';
+import AppError from '@shared/errors/AppError';
 import routes from './routes';
-import uploadConfig from './config/upload';
 
-import './database';
-import AppError from './errors/AppError';
+import '@shared/infra/typeorm';
 
 const app = express();
 app.use(cors());
@@ -32,5 +32,5 @@ app.use(
 const port = 3333;
 
 app.listen(port, () => {
-  console.log(`Server started at port ${port}`);
+  console.log(`☄ Server started at port ${port}`);
 });
