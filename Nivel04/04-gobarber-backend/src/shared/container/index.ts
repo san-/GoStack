@@ -5,6 +5,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import { container } from 'tsyringe';
 import '@modules/users/providers';
 import '@shared/providers';
+// import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
 
 container.registerSingleton<IAppointmentsRepository>(
   'AppointmentsRepository',
@@ -15,3 +16,8 @@ container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
 );
+
+// container.registerSingleton<IUserTokensRepository>(
+//   'UserTokensRepository',
+//   UserTokensRepository,
+// );
