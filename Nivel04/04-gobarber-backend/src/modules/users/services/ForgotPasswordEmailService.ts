@@ -1,5 +1,3 @@
-// import AppError from '@shared/errors/AppError';
-// import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
 import { inject, injectable } from 'tsyringe';
