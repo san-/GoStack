@@ -12,7 +12,7 @@ interface IRequest {
   password?: string;
 }
 @injectable()
-class UpdateUserProfileService {
+class UpdateProfileService {
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
     @inject('HashProvider') private hashProvider: IHashProvider,
@@ -55,4 +55,4 @@ class UpdateUserProfileService {
   }
 }
 
-export default UpdateUserProfileService;
+export default UpdateProfileService;
