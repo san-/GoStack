@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { differenceInHours } from 'date-fns';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
-import IUserTokenRepository from '../repositories/IUserTokensRepository';
+import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
 interface IRequest {
   token: string;
@@ -11,12 +11,12 @@ interface IRequest {
 }
 
 @injectable()
-export default class ResetPasswordService {
+class ResetPasswordService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-    @inject('UserTokenRepository')
-    private userTokensRepository: IUserTokenRepository,
+    @inject('UserTokensRepository')
+    private userTokensRepository: IUserTokensRepository,
     @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}
@@ -39,3 +39,5 @@ export default class ResetPasswordService {
     await this.usersRepository.save(user);
   }
 }
+
+export default ResetPasswordService;

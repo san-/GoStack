@@ -11,7 +11,7 @@ interface IRequest {
 }
 
 @injectable()
-export default class CreateUserService {
+class CreateUserService {
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
     @inject('HashProvider') private hashProvider: IHashProvider,
@@ -29,7 +29,7 @@ export default class CreateUserService {
 
     const hashedPassword = await this.hashProvider.generateHash(password);
 
-    const user = this.usersRepository.create({
+    const user = await this.usersRepository.create({
       name,
       email,
       password: hashedPassword,
@@ -38,3 +38,5 @@ export default class CreateUserService {
     return user;
   }
 }
+
+export default CreateUserService;
