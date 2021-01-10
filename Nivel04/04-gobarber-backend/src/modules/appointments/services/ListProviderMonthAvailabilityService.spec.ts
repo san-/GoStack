@@ -15,24 +15,27 @@ describe('ListProviderMonthAvailability', () => {
 
   it('should be able to list the provider month Availability', async () => {
     fakeAppointmentRepository.create({
-      provider_id: 'user',
+      provider_id: 'provider',
+      user_id: 'user',
       date: new Date(2020, 3, 20, 8, 0, 0),
     });
 
     // eslint-disable-next-line no-plusplus
     for (let h = 8; h <= 17; h++) {
       fakeAppointmentRepository.create({
-        provider_id: 'user',
+        provider_id: 'provider',
+        user_id: 'user',
         date: new Date(2020, 4, 20, h, 0, 0),
       });
     }
 
     fakeAppointmentRepository.create({
-      provider_id: 'user',
+      provider_id: 'provider',
+      user_id: 'user',
       date: new Date(2020, 4, 21, 8, 0, 0),
     });
     const Availability = await listProviderMonthAvailability.execute({
-      provider_id: 'user',
+      provider_id: 'provider',
       year: 2020,
       month: 5,
     });

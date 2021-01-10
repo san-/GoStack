@@ -17,7 +17,7 @@ interface IResponse {
 }
 
 @injectable()
-export default class AuthenticateUserService {
+class AuthenticateUserService {
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
     @inject('HashProvider') private hashProvider: IHashProvider,
@@ -30,7 +30,7 @@ export default class AuthenticateUserService {
     }
     const passwordMatched = await this.hashProvider.compareHash(
       password,
-      user.password || '',
+      user.password,
     );
 
     if (!passwordMatched) {
@@ -47,3 +47,4 @@ export default class AuthenticateUserService {
     return { user, token };
   }
 }
+export default AuthenticateUserService;

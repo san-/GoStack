@@ -23,10 +23,6 @@ class CreateUserService {
       throw new AppError('Email address already used.');
     }
 
-    if (password?.length < 4) {
-      throw new AppError('Password must be at last four characters');
-    }
-
     const hashedPassword = await this.hashProvider.generateHash(password);
 
     const user = await this.usersRepository.create({

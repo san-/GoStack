@@ -41,14 +41,4 @@ describe('CreateUser', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
-
-  it('should not be able to create a new user with short password', async () => {
-    await expect(
-      createUser.execute({
-        name: 'John Doe',
-        email: 'johndoe@teste.tt',
-        password: '123',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
 });
