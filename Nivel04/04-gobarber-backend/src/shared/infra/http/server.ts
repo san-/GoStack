@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
