@@ -25,8 +25,6 @@ export default class ProfileController {
       old_password,
     });
 
-    delete user?.password;
-
     return response.json(classToClass(user));
   }
 }
