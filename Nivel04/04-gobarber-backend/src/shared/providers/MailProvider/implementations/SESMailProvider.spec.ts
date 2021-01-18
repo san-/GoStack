@@ -1,8 +1,8 @@
-import HandlebarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandlebarsMailTamplateProvider';
 import 'reflect-metadata';
 import path from 'path';
 import IMailProvider from '../models/IMailProvider';
 import SESMailProvider from './SESMailProvider';
+import HandlebarsMailTemplateProvider from '../../MailTemplateProvider/implementations/HandlebarsMailTamplateProvider';
 
 let provider: IMailProvider;
 

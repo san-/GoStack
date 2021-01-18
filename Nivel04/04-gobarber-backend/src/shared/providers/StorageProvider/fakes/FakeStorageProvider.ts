@@ -1,6 +1,6 @@
 import IStorageProvider from '../models/IStorageProvider';
 
-export default class FakeStorageProvider implements IStorageProvider {
+class FakeStorageProvider implements IStorageProvider {
   private storage: string[] = [];
 
   public async saveFile(file: string): Promise<string> {
@@ -9,7 +9,10 @@ export default class FakeStorageProvider implements IStorageProvider {
   }
 
   public async deleteFile(file: string): Promise<void> {
-    const findIndex = this.storage.findIndex(findFile => findFile === file);
+    const findIndex = this.storage.findIndex(
+      storageFile => storageFile === file,
+    );
     this.storage.splice(findIndex, 1);
   }
 }
+export default FakeStorageProvider;

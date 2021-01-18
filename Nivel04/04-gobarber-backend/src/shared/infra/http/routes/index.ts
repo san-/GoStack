@@ -1,4 +1,3 @@
-// src/routes/index.ts
 import { Router } from 'express';
 import appointmentsRouter from '@modules/appointments/infra/http/routes/appointments.routes';
 import providersRouter from '@modules/appointments/infra/http/routes/providers.routes';

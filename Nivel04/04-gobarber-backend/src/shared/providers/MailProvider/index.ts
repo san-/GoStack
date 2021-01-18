@@ -4,12 +4,12 @@ import EtherealMailProvider from './implementations/EtherealMailProvider';
 import SESMailProvider from './implementations/SESMailProvider';
 import IMailProvider from './models/IMailProvider';
 
-const mailProviders = {
+const providers = {
   ethereal: EtherealMailProvider,
   ses: SESMailProvider,
 };
 
 container.registerSingleton<IMailProvider>(
   'MailProvider',
-  mailProviders[mailConfig.driver],
+  providers[mailConfig.driver],
 );
