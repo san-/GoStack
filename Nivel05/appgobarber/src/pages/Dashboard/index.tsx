@@ -2,13 +2,22 @@ import React, { useCallback } from 'react';
 import { Text, Button } from 'react-native';
 import { useAuth } from '../../hooks/auth';
 
-import { Container } from './styles';
+import { Container, Header, HeaderTitle, UserName, ProfileButton, UserAvatar } from './styles';
 
 const Dashboard: React.FC = () => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   return (
     <Container>
-      <Button title="Sair" onPress={signOut} />
+      <Header>
+        <HeaderTitle>
+          Bem vindo, {"\n"}
+          <UserName>{user.name}</UserName>
+          </HeaderTitle>
+          <ProfileButton onPress={()=>{}}>
+            <UserAvatar source={{uri: user.avatar_url}}/>
+          </ProfileButton>
+      </Header>
+
     </Container>
   );
 };
