@@ -35,14 +35,14 @@ export const CreateAccountButton = styled.TouchableOpacity`
   border-top-width: 1px;
   border-color: #232129;
   padding: 16px 0 ${16 + getBottomSpace()}px;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
 `;
 
 export const CreateAccountButtonText = styled.Text`
   color: #ff9000;
-  font-family: 'RobotoSlab-Regular';
   font-size: 18px;
+  font-family: 'RobotoSlab-Regular';
   margin-left: 16px;
 `;

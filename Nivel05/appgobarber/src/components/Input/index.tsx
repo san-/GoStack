@@ -1,19 +1,20 @@
-import { useField } from '@unform/core';
 import React, {
-  forwardRef,
+  useState,
   useCallback,
   useEffect,
-  useImperativeHandle,
   useRef,
-  useState,
+  useImperativeHandle,
+  forwardRef,
 } from 'react';
 import { TextInputProps } from 'react-native';
+import { useField } from '@unform/core';
 
 import { Container, TextInput, Icon } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
+  containerStyle?: object;
 }
 
 interface InputValueReference {
@@ -25,7 +26,7 @@ interface InputRef {
 }
 
 const Input: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, icon, ...rest }: InputProps,
+  { name, icon, containerStyle = {}, ...rest },
   ref,
 ) => {
   const inputElementRef = useRef<any>(null);
@@ -44,6 +45,9 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
     setIsFilled(!!inputValueRef.current.value);
   }, []);
 
+  useEffect(() => {
+    inputValueRef.current.value = defaultValue;
+  }, [defaultValue]);
   useImperativeHandle(ref, () => ({
     focus() {
       inputElementRef.current.focus();
@@ -51,22 +55,22 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
   }));
 
   useEffect(() => {
-    registerField({
+    registerField<string>({
       name: fieldName,
       ref: inputValueRef.current,
       path: 'value',
-      setValue(value: string) {
+      setValue(ref: any, value: string) {
         inputValueRef.current.value = value;
-        inputElementRef.current.setNativePros({ text: value });
+        inputElementRef.current.setNativeProps({ text: value });
       },
-      clearValue() {
+      clearValue(ref: any) {
         inputValueRef.current.value = '';
         inputElementRef.current.clear();
       },
     });
   }, [fieldName, registerField]);
   return (
-    <Container isFocused={isFocused} isErrored={!!error}>
+    <Container style={containerStyle} isFocused={isFocused} isErrored={!!error}>
       <Icon
         name={icon}
         size={20}
@@ -74,12 +78,12 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
       />
       <TextInput
         ref={inputElementRef}
-        defaultValue={defaultValue}
         keyboardAppearance="dark"
         placeholderTextColor="#666360"
+        defaultValue={defaultValue}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        onChangeText={value => {
+        onChangeText={(value) => {
           inputValueRef.current.value = value;
         }}
         {...rest}
